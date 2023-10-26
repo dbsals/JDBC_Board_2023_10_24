@@ -2,6 +2,10 @@ package com.ym.jdbc;
 
 import com.ym.jdbc.container.Container;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -32,6 +36,55 @@ public class App {
         String content = sc.nextLine();
         int id = ++articleLastId;
 
+        String jdbcDriver = "com.mysql.cj.jdbc.Driver";
+
+        String url = "jdbc:mysql://127.0.0.1:3306/text_board?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull";
+        String username = "ym";
+        String password = "aa48aa76";
+
+        Connection conn = null;
+        PreparedStatement pstat = null;
+
+        String sql = "INSERT INTO article";
+        sql += " SET regDate = NOW()";
+        sql += ", updateDate = NOW()";
+        sql += ", title = \"" + title + "\"";
+        sql += ", content = \"" + content + "\"";
+
+        System.out.println("sql : " + sql);
+
+        try {
+          Class.forName(jdbcDriver);
+
+          conn = DriverManager.getConnection(url, username, password);
+
+          pstat = conn.prepareStatement(sql);
+
+          pstat.executeUpdate();
+          int affectedRows = pstat.executeUpdate();
+          System.out.printf("affectedRows : " + affectedRows);
+
+        } catch (ClassNotFoundException e) {
+          System.out.println("드라이버 로딩 실패");
+        } catch (SQLException e) {
+          System.out.println("에러 : " + e);
+        } finally {
+          try {
+            if (conn != null && !conn.isClosed()) {
+              conn.close();
+            }
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
+          try {
+            if(pstat != null && !pstat.isClosed()) {
+              pstat.close();
+            }
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
+        }
+
         Article article = new Article(id, title, content);
         articles.add(article);
 
@@ -46,12 +99,6 @@ public class App {
         }
 
         System.out.println("번호 / 제목");
-
-        /*
-        for(Article article : articles) {
-          System.out.printf("%d / %s\n", article.id, article.title);
-        }
-        */
 
         for(int i = articles.size() - 1; i >= 0; i--) {
           Article article = articles.get(i);
