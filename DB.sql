@@ -9,17 +9,3 @@ CREATE TABLE article (
 	title CHAR(100) NOT NULL,
 	`content` TEXT NOT NULL
 );
-
-INSERT INTO article SET
-regDate = NOW(),
-updateDate = NOW(),
-title = '제목1',
-content = '내용1';
-
-SELECT * FROM article;
-
-INSERT INTO article
-SET regDate = NOW(),
-updateDate = NOW(),
-title = CONCAT('제목', RAND()),
-content = CONCAT('내용', RAND());
