@@ -21,11 +21,9 @@ public class App {
 
       Rq rq = new Rq(cmd);
 
-      // DB 연결 시작
       Connection conn = null;
 
       try {
-        // JDBC 드라이버 로드
         Class.forName("com.mysql.cj.jdbc.Driver");
       } catch (ClassNotFoundException e) {
         System.out.println("예외 : MySQL 드라이버 클래스가 없습니다.");
@@ -33,11 +31,9 @@ public class App {
         break;
       }
 
-      // 데이터베이스 연결 정보
       String url = "jdbc:mysql://127.0.0.1:3306/text_board?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull";
 
       try {
-        // 데이터베이스에 연결
         conn = DriverManager.getConnection(url, "ym", "aa48aa76");
 
         doAction(conn, sc, cmd, rq);
@@ -47,14 +43,12 @@ public class App {
       } finally {
         try {
           if (conn != null && !conn.isClosed()) {
-            // 연결 닫기
             conn.close();
           }
         } catch (SQLException e) {
           e.printStackTrace();
         }
       }
-      // DB 연결 끝
     }
 
     sc.close();
@@ -192,6 +186,84 @@ public class App {
       DBUtil.delete(conn, sql);
 
       System.out.printf("%d번 게시물이 삭제되었습니다.\n", id);
+    }
+    if (rq.getUrlPath().equals("/usr/member/join")) {
+      String loginId;
+      String loginPw;
+      String loginPwConfirm;
+      String name;
+
+      System.out.println("== 회원 가입 ==");
+
+      while (true) {
+        System.out.printf("로그인 아이디 : ");
+        loginId = sc.nextLine().trim();
+
+        if(loginId.length() == 0) {
+          System.out.println("로그인 아이디를 입력해주세요.");
+          continue;
+        }
+
+        break;
+      }
+
+      while (true) {
+        System.out.printf("로그인 비번 : ");
+        loginPw = sc.nextLine().trim();
+
+        if(loginPw.length() == 0) {
+          System.out.println("로그인 비번을 입력해주세요.");
+          continue;
+        }
+
+        boolean loginPwConfirmIsSame = true;
+
+        while (true) {
+          System.out.printf("로그인 비번확인 : ");
+          loginPwConfirm = sc.nextLine().trim();
+
+          if(loginPwConfirm.length() == 0) {
+            System.out.println("로그인 비번확인을 입력해주세요.");
+            continue;
+          }
+
+          if(loginPw.equals(loginPwConfirm) == false) {
+            System.out.println("로그인 비번이 일치하지 않습니다. 다시 입력해주세요.");
+            loginPwConfirmIsSame = false;
+            break;
+          }
+
+          break;
+        }
+
+        if(loginPwConfirmIsSame) {
+          break;
+        }
+      }
+
+      while (true) {
+        System.out.printf("이름 : ");
+        name = sc.nextLine().trim();
+
+        if(name.length() == 0) {
+          System.out.println("이름를 입력해주세요.");
+          continue;
+        }
+
+        break;
+      }
+
+      SecSql sql = new SecSql();
+      sql.append("INSERT INTO `member`");
+      sql.append("SET regDate = NOW()");
+      sql.append(", updateDate = NOW()");
+      sql.append(", loginId = ?", loginId);
+      sql.append(", loginPw = ?", loginPw);
+      sql.append(", name = ?", name);
+
+      DBUtil.insert(conn, sql);
+
+      System.out.printf("\"%s\"님 회원 가입을 환영합니다.\n", name);
     } else if (rq.getUrlPath().equals("exit")) {
       System.out.println("프로그램 종료");
       System.exit(0);
