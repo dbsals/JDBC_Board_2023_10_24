@@ -7,13 +7,6 @@ import java.util.Scanner;
 
 public abstract class Controller {
   protected Connection conn;
-  protected Scanner sc;
+  protected Scanner scanner;
 
-  public void setConn(Connection conn) {
-    this.conn = conn;
-  }
-
-  public void setScanner(Scanner scanner) {
-    this.sc = Container.scanner;
-  }
 }
