@@ -1,4 +1,4 @@
-package com.ym.jdbc;
+package com.ym.jdbc.dto;
 
 import java.util.Map;
 

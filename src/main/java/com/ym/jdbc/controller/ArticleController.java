@@ -1,18 +1,13 @@
 package com.ym.jdbc.controller;
 
-import com.ym.jdbc.Article;
+import com.ym.jdbc.dto.Article;
 import com.ym.jdbc.Rq;
 import com.ym.jdbc.container.Container;
 import com.ym.jdbc.service.ArticleService;
-import com.ym.jdbc.util.DBUtil;
-import com.ym.jdbc.util.SecSql;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 public class ArticleController extends Controller {
   private ArticleService articleService;
