@@ -1,6 +1,7 @@
 package com.ym.jdbc.service;
 
 import com.ym.jdbc.container.Container;
+import com.ym.jdbc.dto.Member;
 import com.ym.jdbc.repository.MemberRepository;
 
 public class MemberService {
@@ -16,5 +17,10 @@ public class MemberService {
 
   public void join(String loginId, String loginPw, String name) {
     memberRepository.join(loginId, loginPw, name);
+  }
+
+
+  public Member getMemberLoginId(String loginId) {
+    return memberRepository.getMemberByLoginId(loginId);
   }
 }
