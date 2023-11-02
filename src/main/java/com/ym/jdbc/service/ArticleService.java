@@ -1,6 +1,7 @@
 package com.ym.jdbc.service;
 
 import com.ym.jdbc.container.Container;
+import com.ym.jdbc.dto.Article;
 import com.ym.jdbc.repository.ArticleRepository;
 
 import java.util.List;
@@ -17,13 +18,9 @@ public class ArticleService {
     return articleRepository.write(memberId, title, content);
   }
 
-  public List<Map<String, Object>> getArticlesListMap() {
-    return articleRepository.getArticlesListMap();
-  }
-
-  public Map<String, Object> getArticleMap(int id) {
-    return articleRepository.getArticleMap(id);
-  }
+public List<Article> getArticles() {
+    return articleRepository.getArticles();
+}
 
   public int getArticleCount(int id) {
     return  articleRepository.getArticleCount(id);
@@ -35,5 +32,9 @@ public class ArticleService {
 
   public void delete(int id) {
     articleRepository.delete(id);
+  }
+
+  public Article getArticleById(int id) {
+    return articleRepository.getArticleById(id);
   }
 }
