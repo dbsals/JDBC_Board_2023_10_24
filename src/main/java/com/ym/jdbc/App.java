@@ -65,7 +65,7 @@ public class App {
       Container.articleController.doModify(rq);
     } else if (rq.getUrlPath().equals("/usr/article/delete")) {
       Container.articleController.doDelete(rq);
-    } else if (rq.equals("/usr/member/join")) {
+    } else if (rq.getUrlPath().equals("/usr/member/join")) {
       Container.memberController.join();
     } else if (rq.getUrlPath().equals("/usr/member/login")) {
       Container.memberController.login();
@@ -73,6 +73,8 @@ public class App {
       Container.memberController.logout();
     } else if (rq.getUrlPath().equals("/usr/member/whoami")) {
       Container.memberController.whoami();
+    } else if (rq.getUrlPath().equals("/usr/member/findloginpw")) {
+      Container.memberController.findloginpw();
     } else if (rq.getUrlPath().equals("exit")) {
       System.out.println("프로그램 종료");
       System.exit(0);

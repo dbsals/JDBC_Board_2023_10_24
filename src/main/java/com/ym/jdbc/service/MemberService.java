@@ -15,12 +15,20 @@ public class MemberService {
     return memberRepository.isLoginDup(loginId);
   }
 
-  public void join(String loginId, String loginPw, String name) {
-    memberRepository.join(loginId, loginPw, name);
+  public boolean isLoginEmailDup(String email) {
+    return memberRepository.isLoginEmailDup(email);
+  }
+
+  public void join(String loginId, String loginPw, String name, String email) {
+    memberRepository.join(loginId, loginPw, name, email);
   }
 
 
   public Member getMemberLoginId(String loginId) {
     return memberRepository.getMemberByLoginId(loginId);
+  }
+
+  public void update(String newLoginPw, int id) {
+    memberRepository.update(newLoginPw, id);
   }
 }

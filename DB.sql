@@ -37,27 +37,33 @@ SET regDate = NOW(),
 updateDate = NOW(),
 loginId = 'user1',
 loginPw = '1234',
-`name` = '홍길동';
+`name` = '홍길동',
+email = 'user1@test.com';
 
 INSERT INTO `member`
 SET regDate = NOW(),
 updateDate = NOW(),
 loginId = 'user2',
 loginPw = '1234',
-`name` = '홍길순';
+`name` = '홍길순',
+email = 'user2@test.com';
 
 INSERT INTO `member`
 SET regDate = NOW(),
 updateDate = NOW(),
 loginId = 'user3',
 loginPw = '1234',
-`name` = '임꺽정';
+`name` = '임꺽정',
+email = 'user3@test.com';
 
 # 게시물 테이블에 memberId 칼럼 추가
 ALTER TABLE article ADD COLUMN memberId INT(10) UNSIGNED NOT NULL AFTER updateDate;
 
 # 게시물에 hit 칼럼 추가
 ALTER TABLE article ADD COLUMN hit INT(10) UNSIGNED NOT NULL AFTER `content`;
+
+# 멤버 테이블에 email 칼럼 추가
+ALTER TABLE `member` ADD COLUMN email CHAR(100) NOT NULL UNIQUE AFTER `name`;
 
 # 테스트 게시물 데이터
 INSERT INTO `article`

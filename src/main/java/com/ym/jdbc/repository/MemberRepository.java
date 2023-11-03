@@ -17,7 +17,7 @@ public class MemberRepository {
     return DBUtil.selectRowBooleanValue(Container.conn, sql);
   }
 
-  public void join(String loginId, String loginPw, String name) {
+  public void join(String loginId, String loginPw, String name, String email) {
     SecSql sql = new SecSql();
     sql.append("INSERT INTO `member`");
     sql.append("SET regDate = NOW()");
@@ -25,6 +25,7 @@ public class MemberRepository {
     sql.append(", loginId = ?", loginId);
     sql.append(", loginPw = ?", loginPw);
     sql.append(", name = ?", name);
+    sql.append(", email = ?", email);
 
     DBUtil.insert(Container.conn, sql);
   }
@@ -42,5 +43,23 @@ public class MemberRepository {
     }
 
     return new Member(memberMap);
+  }
+
+  public void update(String newLoginPw, int id) {
+    SecSql sql = new SecSql();
+    sql.append("UPDATE `member`");
+    sql.append("SET loginPw = ?", newLoginPw);
+    sql.append("WHERE id = ?", id);
+
+    DBUtil.update(Container.conn, sql);
+  }
+
+  public boolean isLoginEmailDup(String email) {
+    SecSql sql = new SecSql();
+    sql.append("SELECT COUNT(*) > 0");
+    sql.append("FROM `member`");
+    sql.append("WHERE email = ?", email);
+
+    return DBUtil.selectRowBooleanValue(Container.conn, sql);
   }
 }
