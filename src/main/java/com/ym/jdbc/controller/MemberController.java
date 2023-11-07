@@ -32,7 +32,7 @@ public class MemberController extends Controller {
       loginId = scanner.nextLine().trim();
 
 
-      boolean isLoginDup = memberService.isLoginDup(loginId);
+      boolean isLoginDup = memberService.isLoginIdDup(loginId);
 
       if (isLoginDup) {
         System.out.printf("\"%s\"(은)는 이미 사용중인 아이디입니다.\n", loginId);
@@ -51,16 +51,15 @@ public class MemberController extends Controller {
       System.out.printf("이메일 : ");
       email = scanner.nextLine().trim();
 
+      if (email.length() == 0) {
+        System.out.println("이메일을 입력해주세요.");
+        continue;
+      }
 
       boolean isLoginEmailDup = memberService.isLoginEmailDup(email);
 
       if (isLoginEmailDup) {
         System.out.printf("\"%s\"(은)는 이미 사용중인 이메일입니다.\n", email);
-        continue;
-      }
-
-      if (email.length() == 0) {
-        System.out.println("이메일을 입력해주세요.");
         continue;
       }
 

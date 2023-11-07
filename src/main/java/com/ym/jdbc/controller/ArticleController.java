@@ -5,9 +5,7 @@ import com.ym.jdbc.Rq;
 import com.ym.jdbc.container.Container;
 import com.ym.jdbc.service.ArticleService;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ArticleController extends Controller {
   private ArticleService articleService;
@@ -37,8 +35,13 @@ public class ArticleController extends Controller {
     System.out.printf("%d번 게시물을 작성하였습니다.\n", id);
   }
 
-  public void showList() {
-    List<Article> articles = articleService.getArticles();
+  public void showList(Rq rq) {
+    int page = rq.getIntParam("page", 1);
+    String searchKeyword = rq.getParam("searchKeyword", "");
+
+    int pageItemCount = 10;
+
+    List<Article> articles = articleService.getForPrintArticles(page, pageItemCount, searchKeyword);
 
     if (articles.isEmpty()) {
       System.out.println("게시물이 존재하지 않습니다.");

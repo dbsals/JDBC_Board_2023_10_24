@@ -11,8 +11,8 @@ public class MemberService {
     memberRepository = Container.memberRepository;
   }
 
-  public boolean isLoginDup(String loginId) {
-    return memberRepository.isLoginDup(loginId);
+  public boolean isLoginIdDup(String loginId) {
+    return memberRepository.isLoginIdDup(loginId);
   }
 
   public boolean isLoginEmailDup(String email) {

@@ -8,7 +8,7 @@ import com.ym.jdbc.util.SecSql;
 import java.util.Map;
 
 public class MemberRepository {
-  public boolean isLoginDup(String loginId) {
+  public boolean isLoginIdDup(String loginId) {
     SecSql sql = new SecSql();
     sql.append("SELECT COUNT(*) > 0");
     sql.append("FROM `member`");
