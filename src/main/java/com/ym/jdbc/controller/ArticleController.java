@@ -46,19 +46,36 @@ public class ArticleController extends Controller {
 
   public void showList(Rq rq) {
     int page = rq.getIntParam("page", 1);
+    int boardId = rq.getIntParam("boardId", 0);
     String searchKeyword = rq.getParam("searchKeyword", "");
     String searchKeywordTypeCode = rq.getParam("searchKeywordTypeCode", "");
 
     int pageItemCount = 10;
 
-    List<Article> articles = articleService.getForPrintArticles(page, pageItemCount, searchKeyword, searchKeywordTypeCode);
+    List<Article> articles = null;
+    String boardTitle = "";
+
+    switch (boardId) {
+      case 0:
+        boardTitle = "전체";
+        articles = articleService.getForPrintArticles(page, pageItemCount, searchKeyword, searchKeywordTypeCode);
+        break;
+      case 1:
+        boardTitle = "자유";
+        articles = articleService.getForPrintArticlesByBoard(page, boardId, pageItemCount, searchKeyword, searchKeywordTypeCode);
+        break;
+      case 2:
+        boardTitle = "공지사항";
+        articles = articleService.getForPrintArticlesByBoard(page, boardId, pageItemCount, searchKeyword, searchKeywordTypeCode);
+        break;
+    }
 
     if (articles.isEmpty()) {
       System.out.println("게시물이 존재하지 않습니다.");
       return;
     }
 
-    System.out.println("== 게시물 리스트 ==");
+    System.out.printf("== %s 게시판 게시물 리스트 ==\n", boardTitle);
 
     System.out.println("번호 / 작성날짜 / 제목 / 작성자");
 
